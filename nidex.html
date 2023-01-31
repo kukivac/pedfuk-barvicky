@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        img {
+            height: 50px;
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="placeholder"></div>
+<div>
+    <button id="check">Kontrola</button>
+</div>
+</body>
+<script>
+    let placeholder = document.querySelector(".placeholder")
+    let poleBarev = {
+        "černá": "black",
+        "bílá": "white",
+        "žlutá": "yellow",
+        "červená": "red",
+        "modrá": "blue",
+        "fialová": "purple",
+        "zelená": "green"
+    }
+
+    // item = anglicky, index = česky
+    for (const shuffledPoleBarevKey in poleBarev) {
+        let rowElement = document.createElement("div")
+        rowElement.classList.add("row")
+        let imageElement = document.createElement("img")
+        let inputElement = document.createElement("div")
+        let inputHeaderElement = document.createElement("div")
+        let inputContainerElement = document.createElement("div")
+        let colorInputElement = document.createElement("input")
+
+        colorInputElement.type = "text"
+        imageElement.src = poleBarev[shuffledPoleBarevKey] + ".jpg"
+        rowElement.append(imageElement)
+        inputHeaderElement.innerHTML = shuffledPoleBarevKey
+        inputElement.append(inputHeaderElement)
+        colorInputElement.setAttribute("color", poleBarev[shuffledPoleBarevKey])
+        colorInputElement.classList.add("inputColor")
+        inputContainerElement.append(colorInputElement)
+        inputElement.append(inputContainerElement)
+        rowElement.append(inputElement)
+
+        placeholder.append(rowElement)
+    }
+    let kontrola = function () {
+        let inputs = document.querySelectorAll(".inputColor")
+        let celkemInputu = inputs.length
+        let spravneInputu = 0
+        inputs.forEach((item) => {
+            if (item.value === item.getAttribute("color")) {
+                spravneInputu++
+            }
+        })
+        switch (spravneInputu) {
+            case celkemInputu:
+                alert("šikulka, máš všechno dobře")
+                break;
+            case 0:
+                alert("seš píča, nemáš nic správně")
+                break;
+            default:
+                alert("si píča, máš správně " + spravneInputu + " z " + celkemInputu)
+                break;
+        }
+    }
+
+    let checkButton = document.getElementById("check")
+    checkButton.addEventListener("click", kontrola)
+
+</script>
+</html>
